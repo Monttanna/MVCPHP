@@ -1,0 +1,25 @@
+# activo el motor de reescritura para poder crear las reglas que creo conveniente en el server apache
+# este motor necesita del m�dulo rewrite_module de apache , por lo tanto este debe habilitarse
+# si quieres aprender un poco m�s al respecto te recomiendo
+# http://httpd.apache.org/docs/current/mod/mod_rewrite.html
+# http://www.askapache.com/htaccess/modrewrite-tips-tricks.html
+# https://datakoncepts.com/seo
+
+RewriteEngine on
+
+# Si el archivo o carpeta especificados en la URL no se encuentra o no existe se procede
+# a reescribir la regla , en este caso ejecuta la sgte reglae siempr y cuando el archivo o carpeta
+# no existan y como para MVC las carpetas y archivos "no existen" entonces se ejecuta la regla sgte
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+
+#RewriteCond /%{REQUEST_URI} !-d
+#RewriteRule ^(.+) /other/archive/$1 [R]
+
+# Todo lo que se ponga despu�s del url base se env�a como get en la variable url a index.php
+# es decir cuando ejecuto http://localhost/clases/phpmvc/about/a/b/c se reescribe como
+# http://localhost/clases/phpmvc/index.php?url=about/a/b/c
+
+RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]
